@@ -1,14 +1,22 @@
-import React from 'react'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
 
 const ProductCard = ({ elem }) => {
+	const [sprites, setSprites] = useState(null)
+
+	const fetchDetails = async () => {
+		const { data } = await axios.get(elem.url)
+		setSprites(data.sprites.front_default)
+	}
+
+	useEffect(() => {
+		fetchDetails()
+	}, [elem.url])
+	console.log(sprites)
 	return (
 		<div className='cards-itself'>
 			<div className='section1'>
-				<img
-					src='https://w7.pngwing.com/pngs/971/475/png-transparent-pokemon-charmander-illustration-pokemon-x-and-y-pokemon-go-charmander-bulbasaur-pokemon-mammal-orange-vertebrate-thumbnail.png'
-					className='pokemon-img'
-					alt={elem.name}
-				/>
+				<img src={sprites} className='pokemon-img' alt={elem.name} />
 				<h3 className='text-name'>{elem.name}</h3>
 			</div>
 		</div>
